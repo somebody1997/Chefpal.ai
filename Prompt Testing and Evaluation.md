@@ -148,5 +148,5 @@ use code block to separate these three infos and remove ** symbol from markdown
 
 # Conclusion:
 
-Using GPT o1-mini using prompt 1 has the best results
+Using GPT o1-mini and prompt 1 has the best results
 
