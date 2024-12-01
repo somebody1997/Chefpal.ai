@@ -1,0 +1,14 @@
+[theme]
+base = "light"
+primaryColor = "#3b302a"  # Dark brown for primary elements
+backgroundColor = "#F5E3C2"  # Coffee cream background
+secondaryBackgroundColor = "#ffffff"  # White for cards
+textColor = "#3b302a"  # Dark brown text
+font = "sans serif"
+
+[server]
+port = 8501
+enableStaticServing = true
+
+[browser]
+gatherUsageStats = false
