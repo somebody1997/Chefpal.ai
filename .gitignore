@@ -6,9 +6,16 @@ __pycache__/
 *.sqlite3
 
 # Virtual environment
+<<<<<<< HEAD
 .venv/
 .env/
 
+=======
+venv/
+.venv/
+venv
+.venv
+>>>>>>> main
 
 # Streamlit-specific files
 .streamlit/
