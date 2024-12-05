@@ -30,7 +30,8 @@ with col2:
 
 if submit_button:
     st.write(f"You entered: {input_text}")
-
+    # Redirect to recipe.py
+    st.switch_page("pages/recipe.py")
 
 st.markdown("### Choose a cuisine:")
 
@@ -39,7 +40,7 @@ columns = st.columns(len(cuisine_options))
 for idx, cuisine in enumerate(cuisine_options):
     with columns[idx]:
         # button action
-        if st.button(cuisine, key=cuisine):
+        if st.button(cuisine, key=cuisine, use_container_width=True):
             if st.session_state.selected_cuisine == cuisine:
                 st.session_state.selected_cuisine = None
             else:
