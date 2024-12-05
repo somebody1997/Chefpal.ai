@@ -28,6 +28,7 @@ with col1:
 with col2:
     submit_button = st.button("➤")
 
+# input_text is the variable to accept the message entered by user
 if submit_button:
     st.write(f"You entered: {input_text}")
 
@@ -39,7 +40,8 @@ columns = st.columns(len(cuisine_options))
 for idx, cuisine in enumerate(cuisine_options):
     with columns[idx]:
         # button action
-        if st.button(cuisine, key=cuisine):
+        # st.session_state.selected_cuisine is the variable to accept the cuisine chose by user
+        if st.button(cuisine, key=cuisine, use_container_width=True):
             if st.session_state.selected_cuisine == cuisine:
                 st.session_state.selected_cuisine = None
             else:
