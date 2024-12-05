@@ -1,7 +1,18 @@
 import streamlit as st
 
 # Page config
-st.set_page_config(layout="wide")
+st.set_page_config(
+    layout="wide",
+    initial_sidebar_state="collapsed")
+
+hide_sidebar_style = """
+    <style>
+        [data-testid="stSidebar"] {
+            display: none;  /* 隱藏整個 Sidebar */
+        }
+    </style>
+"""
+st.markdown(hide_sidebar_style, unsafe_allow_html=True)
 
 # Styling
 st.markdown("""
@@ -26,6 +37,24 @@ st.markdown("""
             font-size: 2rem;
             margin-bottom: 2rem;
        
+        }
+            
+        /* Remove link blue color and underline */
+        a {
+            color: inherit !important;
+            text-decoration: none !important;
+        }
+        
+        /* Remove visited link color */
+        a:visited {
+            color: inherit !important;
+        }
+        
+        /* Remove hover effects */
+        a:hover {
+            color: #BE3455 !important;
+            text-decoration: none !important;
+            transition: color 0.3s ease;
         }
 
         .divider-vertical {
@@ -101,8 +130,7 @@ st.markdown("""
 # Top navigation
 col_logo, col_reload = st.columns([1,6])
 with col_logo:
-    st.markdown("<h2 class='site-title'>Chefpal.ai</h2>", unsafe_allow_html=True)
-
+    st.markdown("<h2 class='site-title'><a target='_self' href='frontend' id='my-link'>Chefpal.ai</a></h2>", unsafe_allow_html=True)
 
 
 recipe_title = "Ackee and Saltfish"
