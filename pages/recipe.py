@@ -11,7 +11,7 @@ st.markdown("""
         }
         .block-container {
             padding: 2rem 3rem;
-            font-family: 'Arial', sans-serif;
+          
             max-width: 1400px;
         }
         h1 {
@@ -19,13 +19,13 @@ st.markdown("""
             text-align: center;
             font-size: 3rem;
             margin-bottom: 3rem;
-            font-family: 'Georgia', serif;
+        
         }
         h2 {
             color: #3b302a;
             font-size: 2rem;
             margin-bottom: 2rem;
-            font-family: 'Georgia', serif;
+       
         }
 
         .divider-vertical {
@@ -107,32 +107,32 @@ with col_logo:
 
 recipe_title = "Ackee and Saltfish"
 ingredients_content = """
-- **1 tbsp vegetable oil** <br>
-- **2 onions**, thinly sliced <br>
-- **3 tbsp finely crushed garlic** <br>
+- 1 tbsp vegetable oil <br>
+- 2 onions**, thinly sliced <br>
+- 3 tbsp finely crushed garlic <br>
 - Pinch of thyme leaves <br>
-- **1 tsp Scotch bonnet chilli** <br>
-- **½ green pepper**, finely chopped <br>
-- **½ red pepper**, finely chopped <br>
-- **1 tomato**, finely chopped <br>
-- **240g boiled salt cod** <br>
-- **200g tinned ackee**
+- 1 tsp Scotch bonnet chilli <br>
+- ½ green pepper**, finely chopped <br>
+- ½ red pepper**, finely chopped <br>
+- 1 tomato**, finely chopped <br>
+- 240g boiled salt cod <br>
+- 200g tinned ackee
 """
 methods_content = """
-1. Preheat oven to **220°C/200°C Fan/Gas 7**<br><br>
-2. Mix peppers, onions, thyme, garlic, chillies with oil. Roast 20–25 minutes<br><br>
-3. Boil vinegar and sugar with water. Add roasted vegetables to pickle<br><br>
-4. Sweat onions and garlic in oil (5 mins). Add thyme, Scotch bonnet (10 mins)<br><br>
-5. Add remaining vegetables, cook on low heat<br><br>
-6. Gently stir in saltfish and ackee<br><br>
+1. Preheat oven to **220°C/200°C Fan/Gas 7**<br>
+2. Mix peppers, onions, thyme, garlic, chillies with oil. Roast 20–25 minutes<br>
+3. Boil vinegar and sugar with water. Add roasted vegetables to pickle<br>
+4. Sweat onions and garlic in oil (5 mins). Add thyme, Scotch bonnet (10 mins)<br>
+5. Add remaining vegetables, cook on low heat<br>
+6. Gently stir in saltfish and ackee<br>
 7. Serve warm with optional boiled eggs and avocado
 """
 
 
 # Title
-recipe_title_col, recipe_reload = st.columns([2,9])    
+recipe_title_col, recipe_reload = st.columns([2.5,9])    
 with recipe_title_col:
-    st.markdown(f"<h3>{recipe_title}</h3>", unsafe_allow_html=True)     
+    st.markdown(f"<h2>{recipe_title}</h2>", unsafe_allow_html=True)     
 
 with recipe_reload:
     if st.button("🔄"):
@@ -142,49 +142,46 @@ with recipe_reload:
 # Main container with fixed height
 with st.container():
     # Create three columns: ingredients | divider | methods
-    col1, col2, col3 = st.columns([5, 0.5, 6])
-    
-    # Ingredients Section
+    col1, col2, col3, col4 = st.columns([6,1, 7,1])
+
     with col1:
         with st.container():
-            st.markdown("<h2>Ingredients</h2>", unsafe_allow_html=True)
+            st.markdown("<h3>Ingredients</h3>", unsafe_allow_html=True)
             st.markdown(f"""
                     {ingredients_content}
             """, unsafe_allow_html=True)
     
-    # Vertical Divider
+    # Ingredients Section
     with col2:
-        st.markdown("""
-            <div class="divider-vertical-line"></div>
-        """, unsafe_allow_html=True)
+        st.write(' ')
     
     # Methods Section
     with col3:
         with st.container():
-            st.markdown("<h2>Method</h2>", unsafe_allow_html=True)
+            st.markdown("<h3>Method</h3>", unsafe_allow_html=True)
             st.markdown(f"""
                     {methods_content}
             """, unsafe_allow_html=True)
 
+    with col4:
+        st.write(' ')
+
 
 st.markdown("""
-    <h3 style=' padding: 20px; padding-top: 30px ;'>Ask again</h3>
+    <h3 style='text-align:center; padding: 20px; padding-top: 200px ;'>Ask again</h3>
 """, unsafe_allow_html=True)
-col_upload, col_input, col_submit = st.columns([0.6, 4, 2])  # [image upload, input, submit]
+with st.container():
+    col1, col_input, col_submit, col4 = st.columns([5,8, 2,3])  # [image upload, input, submit]
+    with col1:
+        st.write(' ')
+    with col_input:
+        input_text = st.text_input("", 
+                                placeholder="Message Chefpal",
+                                label_visibility="collapsed",
+                                max_chars=100)
 
-# with col_camera:
-#     st.button("📸")
+    with col_submit:
+        submit_button = st.button("➤")
 
-with col_upload:
-    uploaded_file = st.file_uploader("", type=['png', 'jpg', 'jpeg'], 
-                                   label_visibility="collapsed", 
-                                   key="compact_uploader")
-
-with col_input:
-    input_text = st.text_input("", 
-                              placeholder="Message Chefpal",
-                              label_visibility="collapsed",
-                              max_chars=100)
-
-with col_submit:
-    submit_button = st.button("➤")
+    with col4:
+        st.write(' ')
