@@ -1,4 +1,6 @@
-#!/Users/wilson/Github/Chefpal.ai/.venv/bin/python
+#!/bin/sh
+'''exec' "/Users/eyan/Documents/VT_HomeWork/CS5704-Software-Engineering/Chefpal ai/Chefpal.ai/.venv/bin/python3.12" "$0" "$@"
+' '''
 # -*- coding: utf-8 -*-
 import re
 import sys

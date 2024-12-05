@@ -1,0 +1,44 @@
+# Python-related ignores
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.sqlite3
+
+# Virtual environment
+<<<<<<< HEAD
+.venv/
+.env/
+
+=======
+venv/
+.venv/
+venv
+.venv
+>>>>>>> main
+
+# Streamlit-specific files
+.streamlit/
+
+# Jupyter Notebook checkpoints (if using notebooks)
+.ipynb_checkpoints/
+
+# Log files
+*.log
+
+# Environment files
+.env
+*.env
+
+# OS-specific ignores
+.DS_Store
+Thumbs.db
+
+# Editor-specific ignores
+.vscode/
+.idea/
+
+# Build directories
+build/
+dist/
+*.egg-info/

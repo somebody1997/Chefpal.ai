@@ -1,7 +1,16 @@
 import streamlit as st
 
+st.markdown("""
+       <style>
+        .stApp {
+            background-color: #F5E3C2 !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+
 # set the page and title
-st.set_page_config(page_title="Chefpal.ai", layout="centered")
+# st.set_page_config(page_title="Chefpal.ai", layout="centered")
 
 # declare menu type
 cuisine_options = ["Chinese", "Thai", "Japanese", "American", "French", "Italy"]
