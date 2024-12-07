@@ -1,10 +1,6 @@
 import streamlit as st
 
 def app():
-    # Page config
-    # st.set_page_config(
-    #     layout="wide",
-    #     initial_sidebar_state="collapsed")
 
     hide_sidebar_style = """
         <style>
@@ -25,50 +21,18 @@ def app():
             h1 {
                 color: #3b302a;
                 text-align: center;
-                font-size: 3rem;
-                margin-bottom: 3rem;
+                margin-bottom: 3rem !important;
             
             }
             h2 {
                 color: #3b302a;
-                font-size: 2rem;
+                font-size: 2rem !important;
                 margin-bottom: 2rem;
         
             }
                 
-            /* Remove link blue color and underline */
-            a {
-                color: inherit !important;
-                text-decoration: none !important;
-            }
-            
-            /* Remove visited link color */
-            a:visited {
-                color: inherit !important;
-            }
-            
-            /* Remove hover effects */
-            a:hover {
-                color: #BE3455 !important;
-                text-decoration: none !important;
-                transition: color 0.3s ease;
-            }
-
-            .divider-vertical {
-                width: 2px;
-                background-color: #3b302a;
-                height: 100%;
-                margin: auto;
-            }
-                
-            .divider-vertical-line {
-                border-left: 2px solid lightgray;
-                height: 350px;
-                margin: auto;
-            }
-                
             .content-text {
-                font-size: 1.1rem;
+                font-size: 1.1rem !important;
                 line-height: 1.8;
             }
             
@@ -77,29 +41,8 @@ def app():
                 color: #3b302a;
                 font-size: 1.8rem; 
             }
-                
-            [data-testid='stFileUploader'] {
-            width: max-content;
-            margin: 0 !important;
-            padding: 0 !important;
-            }
-            [data-testid='stFileUploader'] section {
-                padding: 0;
-                float: left;
-            }
-            [data-testid='stFileUploader'] section > input + div {
-                display: none;
-            }
-            [data-testid='stFileUploader'] section + div {
-                float: right;
-                padding-top: 0;
-            }
             
-            [data-testid="stFileUploader"] section {
-                padding: 0 !important;
-            }
-            
-                    /* Align submit button */
+            /* Align submit button */
             .stButton button {
                 margin-top: 0 !important;
                 height: 38px !important;
@@ -117,14 +60,6 @@ def app():
             }
         </style>
     """, unsafe_allow_html=True)
-
-    # Top navigation
-    # col_logo, col_reload = st.columns([1,6])
-    # with col_logo:
-    #     logo_button = st.button("Chefpal.ai")
-    #     if logo_button: 
-    #         st.session_state["current_app"] = "Searchbar"
-    #         st.experimental_rerun()  # Re-run to load the searchbar
 
 
     if "recipe_title" not in st.session_state:
@@ -190,7 +125,7 @@ def app():
 
 
     st.markdown("""
-        <h3 style='text-align:center; padding: 20px; padding-top: 150px ;'>Ask again</h3>
+        <h3 style='text-align:center; padding: 20px; padding-top: 50px ;'>Ask again</h3>
     """, unsafe_allow_html=True)
     with st.container():
         col1, col_input, col_submit, col4 = st.columns([5,8, 2,3])  # [image upload, input, submit]
@@ -208,14 +143,3 @@ def app():
         with col4:
             st.write(' ')
 
-    # Test Section
-    # Retrieve passed values 
-    input_text = st.session_state.get("input_text", "No input provided")
-    selected_cuisine = st.session_state.get("selected_cuisine", "No cuisine selected")
-
-    st.write("**You came from the frontend page!**")
-    st.write(f"- Input from user: `{input_text}`")
-    st.write(f"- Selected Cuisine: `{selected_cuisine}`")
-
-    # A simple demonstration that we have the data
-    st.markdown("Feel free to go back and change your selection or input more text on the `frontend.py` page.")
