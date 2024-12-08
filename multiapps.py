@@ -35,7 +35,7 @@ class MultiApp:
 
         if logo_button:
             st.session_state["current_app"] = "Searchbar"
-            st.experimental_rerun()
+            st.rerun()
 
         # Identify the currently selected app and run it
         current_app_title = st.session_state["current_app"]

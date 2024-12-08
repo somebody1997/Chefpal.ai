@@ -1,5 +1,5 @@
 import streamlit as st
-
+import json
 def app():
 
     hide_sidebar_style = """
@@ -10,7 +10,6 @@ def app():
         </style>
     """
     st.markdown(hide_sidebar_style, unsafe_allow_html=True)
-
     # Styling
     st.markdown("""
         <style>
@@ -61,39 +60,17 @@ def app():
         </style>
     """, unsafe_allow_html=True)
 
-
     if "recipe_title" not in st.session_state:
-        st.session_state["recipe_title"] = "Ackee and Saltfish"
+        st.session_state["recipe_title"] = st.session_state.recipe_data.get('recipe_name', '')
 
     if "ingredients_content" not in st.session_state:
-        st.session_state["ingredients_content"] = """
-        - 1 tbsp vegetable oil <br>
-        - 2 onions**, thinly sliced <br>
-        - 3 tbsp finely crushed garlic <br>
-        - Pinch of thyme leaves <br>
-        - 1 tsp Scotch bonnet chilli <br>
-        - ½ green pepper**, finely chopped <br>
-        - ½ red pepper**, finely chopped <br>
-        - 1 tomato**, finely chopped <br>
-        - 240g boiled salt cod <br>
-        - 200g tinned ackee
-        """
+        st.session_state["ingredients_content"] = st.session_state.recipe_data.get('ingredients', '')
     if "methods_content" not in st.session_state:
-        st.session_state["methods_content"] = """
-        1. Preheat oven to **220°C/200°C Fan/Gas 7**<br>
-        2. Mix peppers, onions, thyme, garlic, chillies with oil. Roast 20–25 minutes<br>
-        3. Boil vinegar and sugar with water. Add roasted vegetables to pickle<br>
-        4. Sweat onions and garlic in oil (5 mins). Add thyme, Scotch bonnet (10 mins)<br>
-        5. Add remaining vegetables, cook on low heat<br>
-        6. Gently stir in saltfish and ackee<br>
-        7. Serve warm with optional boiled eggs and avocado
-        """
+        st.session_state["methods_content"] = st.session_state.recipe_data.get('instructions', '')
 
 
     # Title
-    recipe_title_col, recipe_reload = st.columns([2.5,9])    
-    with recipe_title_col:
-        st.markdown(f"<h2>{st.session_state['recipe_title']}</h2>", unsafe_allow_html=True)     
+    st.markdown(f"<h2>{st.session_state['recipe_title']}</h2>", unsafe_allow_html=True)     
 
 
     # Main container with fixed height

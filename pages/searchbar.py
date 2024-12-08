@@ -1,7 +1,9 @@
 import streamlit as st
-
-
+from service.recipe_generator import RecipeGenerator
+import json
 def app():
+    
+    recipe_gen = RecipeGenerator()
     # set the page and title
     # st.set_page_config(page_title="Chefpal.ai", layout="wide")
     hide_sidebar_style = """
@@ -118,11 +120,34 @@ def app():
             st.write(' ')
 
     if submit_button:
-        st.write(f"You entered: {input_text}")
         st.session_state["input_text"] = input_text
         # Redirect to recipe.py
-        st.session_state["current_app"] = "Recipe"
-        st.experimental_rerun()  # Re-run to load the recipe app
+
+        # sent model input
+        # st.session_state.selected_cuisine
+        # Add spinner while generating recipe
+        # Center the spinner
+        with st.container():
+            left_col, center_col, right_col = st.columns([1, 2, 1])
+            with center_col:
+                # Add custom CSS for vertical centering
+                st.markdown("""
+                    <style>
+                        div.stSpinner > div {
+                            text-align: center;
+                            min-height: 10vh;  /* Reduced from 50vh */
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        }
+                    </style>
+                """, unsafe_allow_html=True)
+                
+                with st.spinner('Creating your recipe...'):
+                    st.session_state.recipe_detail = recipe_gen.generate(st.session_state.input_text, st.session_state.selected_cuisine)
+                    st.session_state.recipe_data = json.loads(st.session_state.recipe_detail)
+                    st.session_state["current_app"] = "Recipe"
+                    st.rerun()
     
 
     with st.container():
@@ -141,7 +166,7 @@ def app():
                     st.markdown(f'<span id="button-after-{idx}"></span>', unsafe_allow_html=True)
                     if st.button(cuisine, key=cuisine, use_container_width=True):
                         if st.session_state.selected_cuisine == cuisine:
-                            st.session_state.selected_cuisine = None
+                            st.session_state.selected_cuisine = "random"
                         else:
                             st.session_state.selected_cuisine = cuisine
         with col3:

@@ -1,5 +1,4 @@
 # recipe_generator.py
-
 from langchain_openai import ChatOpenAI
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langgraph.checkpoint.memory import MemorySaver
@@ -15,11 +14,12 @@ load_dotenv()
 
 class State(TypedDict):
     messages: Annotated[list, add_messages]
+    cusine_type: Annotated[list, add_messages]
     user_input: str
 
 class RecipeGenerator:
-    def __init__(self, memory=None):
-        self.memory = memory
+    def __init__(self):
+        self.memory = MemorySaver()
         self.graph = self._build_graph()
         
     def _build_graph(self):
@@ -29,7 +29,7 @@ class RecipeGenerator:
             Here is a list of ingredients: 
             {messages}
 
-            Based on this list, create only one recipe and make sure to clearly label: 
+            Based on this list, create only one recipe in {cusine_type} style and make sure to clearly label: 
             - Recipe Name
             - Ingredients with specific quantities or weights
             - Cooking Instructions with step-by-step guide
@@ -46,14 +46,17 @@ class RecipeGenerator:
 
         structure_prompt = ChatPromptTemplate.from_template(
             """
-            The only job is structure the recipe into JSON format, containing:
-            - recipe_name
-            - instructions
-            - ingredients.
+            Please convert the following recipe content into JSON format, including the following fields:
+            - `recipe_name`
+            - `instructions`
+            - `ingredients`
 
-            Each of json value should be markdown formatted.
-            Only return the information in "value".
+            Each field's value should be formatted in Markdown. 
+            Only return the value part of the JSON, and do not include the field names within the values. 
+            For example, in the `instructions` field, start the guidance directly without "instructions:". 
+            Similarly, in the `recipe_name` and `ingredients` fields, provide the content directly without including "recipe_name:" or "ingredients:" within their respective values.
 
+            Recipe content:
             {messages}
             """
         )
@@ -65,7 +68,11 @@ class RecipeGenerator:
         graph_builder = StateGraph(State)
 
         def generate_recipe(state: State):
-            return {"messages": [planner.invoke(state["messages"])]}
+            recipe_params = {
+                "cusine_type": state["cusine_type"],
+                "messages": state["messages"],
+            }
+            return {"messages": [planner.invoke(recipe_params)]}
 
         def structured_output(state: State):
             return {"messages": [structure.invoke(state["messages"])]}
@@ -77,13 +84,13 @@ class RecipeGenerator:
         graph_builder.add_edge("recipe", "structured")
         graph_builder.add_edge("structured", END)
 
-        graph = graph_builder.compile(checkpointer=memory)
+        graph = graph_builder.compile(checkpointer=self.memory)
         return graph
 
-    def generate(self, user_input):
+    def generate(self, user_input, cusine_type):
         """Generate a recipe based on user input ingredients."""
         config = {"configurable": {"thread_id": "1"}}
-        events = self.graph.invoke({"messages": user_input}, config, stream_mode="values")
+        events = self.graph.invoke({"messages": user_input, "cusine_type": cusine_type}, config, stream_mode="values")
         return events['messages'][-1].content
 
     def display_graph(self):
@@ -95,8 +102,7 @@ class RecipeGenerator:
 
 # Usage example:
 if __name__ == "__main__":
-    memory = MemorySaver()
-    recipe_gen = RecipeGenerator(memory)
+    recipe_gen = RecipeGenerator()
     user_input = "Tomato, Mushroom, Green Bell Pepper, Onion, Garlic, Egg, Chicken, Cheese, Yogurt"
-    response = recipe_gen.generate(user_input)
+    response = recipe_gen.generate(user_input, cusine_type="Chinese")
     print(response)
