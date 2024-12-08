@@ -16,11 +16,46 @@ class State(TypedDict):
     messages: Annotated[list, add_messages]
     cusine_type: Annotated[list, add_messages]
     user_input: str
+    
+class RecipeValidationError(ValueError):
+    """Custom exception for recipe validation errors"""
+    def __init__(self, message="Invalid input", error_type="Wrong input"):
+        self.error_type = error_type
+        super().__init__(message)
 
 class RecipeGenerator:
     def __init__(self):
         self.memory = MemorySaver()
         self.graph = self._build_graph()
+        self.error_response = {
+            "recipe_name": "Wrong input",
+            "ingredients": ["-"],
+            "instructions": ["-"]
+        }
+    
+    def _validate_input(self, user_input, cusine_type):
+        """Validate input parameters."""
+                    
+        if isinstance(user_input, (int, float)):
+            
+            raise TypeError("User input must be a string, not a number")
+        
+        if isinstance(user_input, (int, float)):
+            raise RecipeValidationError("Input must be text", "Wrong input")
+        
+        if user_input is None or user_input == "":
+            raise RecipeValidationError("Input cannot be empty", "Wrong input")
+
+        if isinstance(user_input, list):
+            raise RecipeValidationError("Input must be text", "Wrong input")
+
+        if not isinstance(user_input, str):
+            raise RecipeValidationError("Input must be text", "Wrong input")
+
+        if not cusine_type or cusine_type == "":
+            raise RecipeValidationError("Invalid cuisine type", "Wrong cuisine type")
+        return True
+
         
     def _build_graph(self):
         # Define prompts and tools
@@ -89,10 +124,20 @@ class RecipeGenerator:
 
     def generate(self, user_input, cusine_type):
         """Generate a recipe based on user input ingredients."""
-        config = {"configurable": {"thread_id": "1"}}
-        events = self.graph.invoke({"messages": user_input, "cusine_type": cusine_type}, config, stream_mode="values")
-        return events['messages'][-1].content
-
+        if not self._validate_input(user_input, cusine_type):
+            return self.error_response
+            
+        try:
+            config = {"configurable": {"thread_id": "1"}}
+            events = self.graph.invoke(
+                {"messages": user_input, "cusine_type": cusine_type}, 
+                config, 
+                stream_mode="values"
+            )
+            return events['messages'][-1].content
+        except Exception:
+            return self.error_response
+        
     def display_graph(self):
         """Optional: Display the graph structure."""
         try:
