@@ -62,7 +62,7 @@ class RecipeGenerator:
         )
 
         structure = structure_prompt | ChatOpenAI(
-            model="gpt-3.5-turbo-0125", temperature=0
+            model="gpt-4o", temperature=0
         )
 
         graph_builder = StateGraph(State)

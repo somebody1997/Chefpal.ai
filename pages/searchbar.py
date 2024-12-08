@@ -119,6 +119,17 @@ def app():
         with col4:
             st.write(' ')
 
+    # Function to remove code block delimiters
+    def remove_code_block(code_str):
+        lines = code_str.strip().split('\n')
+        # Remove the first and last lines if they are ```
+        if lines[0].strip().startswith('```'):
+            lines = lines[1:]
+        if lines and lines[-1].strip().startswith('```'):
+            lines = lines[:-1]
+        # Join the remaining lines
+        return '\n'.join(lines)
+
     if submit_button:
         st.session_state["input_text"] = input_text
         # Redirect to recipe.py
@@ -145,7 +156,22 @@ def app():
                 
                 with st.spinner('Creating your recipe...'):
                     st.session_state.recipe_detail = recipe_gen.generate(st.session_state.input_text, st.session_state.selected_cuisine)
-                    st.session_state.recipe_data = json.loads(st.session_state.recipe_detail)
+                    st.write(st.session_state.recipe_detail)
+                    
+
+                    # Clean the JSON string
+                    clean_json_str = remove_code_block(st.session_state.recipe_detail)
+
+                    # Parse the JSON
+                    try:
+                        st.session_state.recipe_data = json.loads(clean_json_str)
+                    except json.JSONDecodeError as e:
+                        st.session_state.recipe_data = {
+                            "recipe_name": "Recipe Not Found",
+                            "ingredients": "Ingredients gonna throw away lol",
+                            "instructions": "Think by yourself"
+                        }
+
                     st.session_state["current_app"] = "Recipe"
                     st.rerun()
     

@@ -60,6 +60,8 @@ def app():
         </style>
     """, unsafe_allow_html=True)
 
+
+
     if "recipe_title" not in st.session_state:
         st.session_state["recipe_title"] = st.session_state.recipe_data.get('recipe_name', '')
 
