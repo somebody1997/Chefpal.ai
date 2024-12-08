@@ -1,64 +1,156 @@
 import streamlit as st
 
-st.markdown("""
-       <style>
-        .stApp {
-            background-color: #F5E3C2 !important;
-        }
-    </style>
-""", unsafe_allow_html=True)
 
-
-# set the page and title
-# st.set_page_config(page_title="Chefpal.ai", layout="centered")
-
-# declare menu type
-cuisine_options = ["Chinese", "Thai", "Japanese", "American", "French", "Italy"]
-
-# initiate
-if "selected_cuisine" not in st.session_state:
-    st.session_state.selected_cuisine = None  
-
-# topic
-st.markdown(
+def app():
+    # set the page and title
+    # st.set_page_config(page_title="Chefpal.ai", layout="wide")
+    hide_sidebar_style = """
+        <style>
+            [data-testid="stSidebar"] {
+                display: none;  /* 隱藏整個 Sidebar */
+            }
+        </style>
     """
-    <div style="text-align: center;">
-        <h1 style="color: #444;">Chefpal.ai</h1>
+    st.markdown(hide_sidebar_style, unsafe_allow_html=True)
+
+
+    # declare menu type
+    cuisine_options = ["Chinese", "Thai", "Japanese", "American", "French", "Italy"]
+    
+    # initiate
+    if "selected_cuisine" not in st.session_state:
+        st.session_state.selected_cuisine = None  
+
+    # topic
+    st.markdown(
+        """
+        <style>
+            .stApp {
+                background-color: #F5E3C2;
+            }
+
+            /* Remove link blue color and underline */
+            a {
+                color: inherit !important;
+                text-decoration: none !important;
+            }
+            
+            /* Remove visited link color */
+            a:visited {
+                color: inherit !important;
+            }
+            
+            /* Remove hover effects */
+            a:hover {
+                color: #BE3455 !important;
+                text-decoration: none !important;
+                transition: color 0.3s ease;
+            }
+            .element-container:has(style){
+                display: none;
+            }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    # Define colors
+    button_colors = ['#B44D4D', '#A3C585', '#23558e', '#FFA500', '#8B5A83', '#795548']
+
+    # Generate dynamic CSS for each button
+    button_css = ""
+    for i, color in enumerate(button_colors):
+        button_css += f"""
+        .element-container:has(#button-after-{i}) + div button {{
+            background-color: transparent;
+            color: {color};
+            border: none;
+            transition: all 0.2s ease;
+            font-size: 1.2rem !important;
+        }}
+
+        .element-container:has(#button-after-{i}) + div button:focus {{
+            box-shadow: 0 0 3px rgba({color}, 0.3) !important;
+            border: 0.8px solid {color} !important;
+            background-color: transparent !important;
+        }}
         
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
+        .element-container:has(#button-after-{i}) + div button:active {{
+            background-color: transparent !important;
+            border: 0.5px solid {color} !important;
+            opacity: 0.8;
+        }}
+        """
 
-st.markdown("### What's in your fridge?")
-col1, col2 = st.columns([4, 1])  # adjust the ratio for searchbar and submit button
-with col1:
-    input_text = st.text_input("", placeholder="Message Chefpal", label_visibility="collapsed")
-with col2:
-    submit_button = st.button("➤")
-
-# input_text is the variable to accept the message entered by user
-if submit_button:
-    st.write(f"You entered: {input_text}")
+    # Add CSS to page
+    st.markdown(f"""
+        <style>
+            {button_css}
+        </style>
+    """, unsafe_allow_html=True)
 
 
-st.markdown("### Choose a cuisine:")
+    with st.container():
+        col1, col2, col3 = st.columns([7,6,3])
+        with col1:
+            st.write(' ')
 
-# st.columns adjust horizontal
-columns = st.columns(len(cuisine_options))
-for idx, cuisine in enumerate(cuisine_options):
-    with columns[idx]:
-        # button action
-        # st.session_state.selected_cuisine is the variable to accept the cuisine chose by user
-        if st.button(cuisine, key=cuisine, use_container_width=True):
-            if st.session_state.selected_cuisine == cuisine:
-                st.session_state.selected_cuisine = None
-            else:
-                st.session_state.selected_cuisine = cuisine
+        with col2:
+            st.markdown("### What's in your fridge?")
 
-# show the menu type selected
-st.markdown("### Current Selection:")
-if st.session_state.selected_cuisine:
-    st.write(f"Selected Cuisine: {st.session_state.selected_cuisine}")
-else:
-    st.write("No cuisine selected.")
+        with col3:
+            st.write(' ')
+
+    with st.container():
+        col1, col_input, col_submit, col4 = st.columns([5,8, 2,3]) 
+        with col1:
+            st.write(' ')
+        with col_input:
+            input_text = st.text_input("", 
+                                    placeholder="Message Chefpal",
+                                    label_visibility="collapsed",
+                                    max_chars=100)
+
+        with col_submit:
+            submit_button = st.button("➤")
+
+        with col4:
+            st.write(' ')
+
+    if submit_button:
+        st.write(f"You entered: {input_text}")
+        st.session_state["input_text"] = input_text
+        # Redirect to recipe.py
+        st.session_state["current_app"] = "Recipe"
+        st.experimental_rerun()  # Re-run to load the recipe app
+    
+
+    with st.container():
+        col1, col2, col3 = st.columns([3,8, 2])
+
+        with col1:
+            st.write(' ')
+
+        with col2:
+            # st.columns adjust horizontal
+            columns = st.columns(len(cuisine_options))
+            for idx, cuisine in enumerate(cuisine_options):
+                with columns[idx]:
+                    # button action
+                    # st.markdown(f'<span id="button-after" class="color-{idx}"></span>', unsafe_allow_html=True)
+                    st.markdown(f'<span id="button-after-{idx}"></span>', unsafe_allow_html=True)
+                    if st.button(cuisine, key=cuisine, use_container_width=True):
+                        if st.session_state.selected_cuisine == cuisine:
+                            st.session_state.selected_cuisine = None
+                        else:
+                            st.session_state.selected_cuisine = cuisine
+        with col3:
+            st.write(' ')
+
+    # with st.container():
+    #     # show the menu type selected
+    #     st.markdown("### Current Selection:")
+    #     if st.session_state.selected_cuisine:
+    #         st.write(f"Selected Cuisine: {st.session_state.selected_cuisine}")
+    #     else:
+    #         st.write("No cuisine selected.")
