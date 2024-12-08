@@ -52,6 +52,7 @@ class RecipeGenerator:
             - ingredients.
 
             Each of json value should be markdown formatted.
+            Only return the information in "value".
 
             {messages}
             """
