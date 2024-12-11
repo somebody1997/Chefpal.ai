@@ -145,11 +145,6 @@ All tests are currently passing. The test suite covers:
 - Integration testing
 - Graph structure validation
 
-If you encounter any test failures, please ensure:
-1. All dependencies are correctly installed
-2. OpenAI API key is properly set
-3. Python version meets requirements
-
 ## Error Handling
 
 The system includes comprehensive error handling for:
