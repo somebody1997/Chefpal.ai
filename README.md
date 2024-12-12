@@ -115,13 +115,9 @@ export OPENAI_API_KEY='your-api-key-here'
 The project includes a comprehensive test suite using pytest. To run the tests:
 
 ```bash
-# Run all tests
-pytest
-
-# Run tests with verbose output
-pytest -v
 
 # Run specific test file
+cd server
 pytest test_recipe_generator.py
 
 
