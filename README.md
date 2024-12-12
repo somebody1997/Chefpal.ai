@@ -159,3 +159,71 @@ The system includes comprehensive error handling for:
 - LangChain for the graph framework
 - All contributors and testers
 
+
+# Use Case Description
+```
+Use Case: Generate a Customized Recipe
+1. Preconditions
+   - User has accessed the Chefpal.ai web application
+   - User has ingredients in mind
+
+2. Main Flow
+   User inputs available ingredients [S1]. User selects desired cooking style [S2]. System generates a customized recipe [S3].
+
+3. Subflows
+   [S1] User enters ingredients in the text input field (e.g., "chicken, mushroom, tomato")
+   [S2] User selects cooking style from dropdown menu (e.g., "Thai", "Italian", "Chinese")
+   [S3] System displays complete recipe with title, ingredients list, and cooking steps
+
+4. Alternative Flows
+   [E1] Empty ingredient input: System prompts user to enter ingredients
+   [E2] API failure: System shows error message and asks user to try again
+```
+
+### Test Execution Steps
+1. Open Chefpal.ai web application
+2. Enter "chicken, mushroom, tomato" in the ingredients input field
+3. Select "Thai" from the cooking style dropdown
+4. Click "Generate Recipe" button
+
+### Expected Output
+The system should generate a complete recipe in the following format:
+
+```
+Thai Basil Chicken with Mushrooms and Tomatoes
+
+Ingredients:
+- 300g chicken, sliced
+- 2 cups mushrooms, sliced
+- 2 tomatoes, wedged
+- 3 cloves garlic, minced
+- 2 tbsp fish sauce
+- 1 cup Thai basil leaves
+- 2 tbsp cooking oil
+
+Instructions:
+1. Heat oil in a wok over medium-high heat
+2. Add garlic and stir-fry until fragrant
+3. Add chicken and cook until nearly done
+4. Add mushrooms and tomatoes, stir-fry for 3 minutes
+5. Season with fish sauce
+6. Add Thai basil leaves
+7. Serve hot with steamed rice
+```
+
+### Output Validation Criteria
+1. Recipe Title:
+   - Should include main ingredients
+   - Should reflect selected cuisine type
+
+2. Ingredients List:
+   - Must include all user-input ingredients
+   - Should include appropriate seasonings for selected cuisine
+   - Quantities should be clearly specified
+
+3. Cooking Instructions:
+   - Should be clear and sequential
+   - Must use all listed ingredients
+   - Should reflect cooking methods appropriate for the cuisine type
+   - Must be logically ordered
+
