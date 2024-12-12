@@ -78,7 +78,7 @@ This project is a user-friendly web application designed to suggest recipes base
 - **Expanded Recipe Database:** Add a custom database for more diverse suggestions.
 - **User Preferences:** Tailor recipes based on dietary restrictions or cuisine preferences.
 ---
-# Unit testing
+# Run Application and Unit testing
 
 ## Prerequisites
 
@@ -109,7 +109,10 @@ pip install -r requirements.txt
 ```bash
 export OPENAI_API_KEY='your-api-key-here'
 ```
-
+## Run Application
+```
+streamlit run frontend.py
+```
 ## Running Tests
 
 The project includes a comprehensive test suite using pytest. To run the tests:
