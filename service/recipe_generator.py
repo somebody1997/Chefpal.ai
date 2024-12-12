@@ -37,7 +37,6 @@ class RecipeGenerator:
         """Validate input parameters."""
                     
         if isinstance(user_input, (int, float)):
-            
             raise TypeError("User input must be a string, not a number")
         
         if isinstance(user_input, (int, float)):
